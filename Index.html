@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indro Studio: Future of Web Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* BASE & VARIABLES */
+        :root {
+            --primary: #0f172a; 
+            --accent: #3b82f6; 
+            --secondary-accent: #10b981; 
+            --light-bg: #f8fafc;
+            --text-color: #475569;
+            --card-radius: 20px; /* Increased Curvature */
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Outfit', sans-serif; scroll-behavior:smooth; }
+        body { color: var(--text-color); line-height:1.6; background:var(--light-bg); }
+
+        /* GENERAL STYLES & SECTIONS */
+        .sec { padding: 80px 5%; position: relative; z-index: 5; }
+        .head { text-align: center; margin-bottom: 50px; }
+        .head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; color: var(--primary); font-weight: 900; margin-bottom: 15px; }
+
+        /* 3D/DEPTH CARD EFFECT & ANIMATIONS */
+        .card-hover {
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+            border-radius: var(--card-radius);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px); 
+            box-shadow: 0 35px 70px rgba(0,0,0,0.3); 
+            border-color: var(--secondary-accent);
+        }
+        
+        /* HEADER FIX */
+        header { 
+            background:white; border-bottom:1px solid #eee; padding:15px 5%; 
+            display:flex; justify-content:space-between; align-items:center; 
+            position:sticky; top:0; z-index:1000; 
+            box-shadow:0 4px 10px rgba(0,0,0,0.08); 
+        }
+        .logo { font-family:'Space Grotesk', sans-serif; font-size:26px; font-weight:800; color:var(--primary); }
+        .logo span { color:var(--accent); }
+        .nav-btn { 
+            background:var(--accent); color:white; padding:10px 25px; 
+            border-radius:30px; text-decoration:none; font-weight:700; 
+            font-size:15px; border:2px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        /* HERO SECTION (Enhanced Visuals) */
+        .hero { 
+            /* Enhanced Gradient and slight purple tint for modern 3D feel */
+            background: linear-gradient(135deg, #1f2946 0%, #0f172a 100%); 
+            color:white; 
+            padding:100px 5%; 
+            text-align:center;
+            position: relative; 
+            overflow: hidden;
+            margin-top: 0; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5); /* Shadow below Hero */
+        }
+        .hero h1 { font-family:'Space Grotesk', sans-serif; font-size:3rem; font-weight:900; margin-bottom:20px; line-height:1.2; letter-spacing: -1px;}
+        .hero h1 span { color:var(--secondary-accent); }
+        .hero-cta { 
+            background:var(--secondary-accent); color:white; padding:18px 45px; 
+            border-radius:50px; text-decoration:none; font-size:1.1rem; font-weight:800; 
+            display:inline-block; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5); 
+            transition: transform 0.3s ease;
+        }
+        .hero-cta:hover { transform: scale(1.05); }
+
+        .shape { display: none; } 
+        .hero * { z-index: 2; position: relative; }
+
+        /* GRID SYSTEM STABILITY */
+        .feature-grid, .portfolio-grid, .monetization-grid, .steps-grid {
+            display: grid;
+            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        }
+        
+        .feature-card, .monetization-card, .steps-item, .portfolio-item { 
+            padding:30px; 
+            border-radius: var(--card-radius); 
+            background: white; 
+            border: 2px solid #e5e7eb;
+        }
+        
+        /* PORTFOLIO FIXES */
+        .portfolio-placeholder {
+            background: #e0f2f1;
+            color: var(--secondary-accent);
+            padding: 30px 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .portfolio-info { padding: 0; margin-top: 0; text-align: left; } 
+
+        /* --- FAQ SPACING FIX --- */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { 
+            margin-bottom: 20px; /* Increased space between FAQ items */
+            padding: 25px; /* Increased internal padding */
+            border-radius: 15px; /* Slightly curvier FAQ box */
+        }
+        .faq-q { font-weight: 700; color: var(--primary); display: flex; justify-content: space-between; cursor: pointer; margin-bottom: 5px; }
+        .faq-a { 
+            display: none; 
+            margin-top: 15px; /* Increased margin above answer */
+            padding-top: 15px; /* Increased padding after divider */
+            border-top: 1px dashed #ddd; 
+            font-size: 0.95rem; 
+        }
+        .faq-item.active .faq-a { display: block; } 
+        .faq-q i { transition: transform 0.3s; color: var(--accent); }
+        .faq-item.active .faq-q i { transform: rotate(45deg); }
+
+
+        /* FOOTER */
+        .cta-bar { background:var(--accent); color:white; padding:60px 5%; text-align:center; margin-top:60px; }
+        footer { background:var(--primary); color:#9ca3af; padding:40px 5%; text-align:center; font-size:0.9rem; border-top: 5px solid var(--secondary-accent); z-index: 100; }
+        
+        /* --- DESKTOP OPTIMIZATION --- */
+        @media (min-width: 769px) {
+            .hero h1 { font-size: 4rem; }
+            .feature-grid { grid-template-columns: repeat(3, 1fr); }
+            .steps-grid { grid-template-columns: repeat(4, 1fr); }
+            .hero-content-wrapper { padding-top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">INDRO<span>STUDIO</span></div>
+    <a href="Architect.html" class="nav-btn pulse">Launch Architect <i class="fa-solid fa-arrow-right"></i></a>
+</header>
+
+<div class="hero-content-wrapper">
+
+    <section class="hero">
+        
+        <h1>FREE Website & <span>Smart Tools.</span></h1>
+        <p style="font-size: 1.3rem; opacity: 0.8;">Indro Studio is the fastest and smartest way to get online. Say goodbye to high costs, complex coding, and monthly maintenance fees.</p>
+        
+        <a href="Architect.html" class="hero-cta" style="margin-top: 20px;">Build Your Website in 30 Seconds <i class="fa-solid fa-gauge-high"></i></a>
+
+        <div style="margin-top: 70px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; font-family:'Space Grotesk', sans-serif; opacity: 0.9;">
+            <div style="font-size: 1.1rem; font-weight: 700;"><i class="fa-solid fa-check" style="color:#10b981;"></i> Zero Hosting Fee</div>
+            <div style="font-size: 1.1rem; font-weight: 700;"><i class="fa-solid fa-check" style="color:#10b981;"></i> Dynamic App Integration</div>
+            <div style="font-size: 1.1rem; font-weight: 700;"><i class="fa-solid fa-check" style="color:#10b981;"></i> 24/7 AI-Ready</div>
+        </div>
+    </section>
+
+
+    <section class="sec features">
+        <div class="head">
+            <h2>The Indro Advantage: Technology Built for Business Growth</h2>
+            <p>Our ad-supported model removes the complexity and cost barrier, focusing purely on client value and conversion.</p>
+        </div>
+        <div class="feature-grid">
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-tags"></i>
+                <h3>Truly Free Setup & Hosting</h3>
+                <p>We eliminate monthly hosting bills and complex IT costs. Your professional website is financially supported by our network's relevant ad placements. Focus your money on marketing, not maintenance.</p>
+            </div>
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-puzzle-piece"></i>
+                <h3>Dynamic App Integration (The Game Changer)</h3>
+                <p>Instantly add high-value tools—like BMI calculators for gyms, live booking widgets for cafes, or loan estimators for real estate—to your site for FREE. No plugins or complex setup required.</p>
+            </div>
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-bolt"></i>
+                <h3>Lightning-Fast Performance</h3>
+                <p>Built on modern static architecture, Indro websites load instantaneously. This speed is crucial for high SEO rankings on Google and provides an unbeatable experience for your mobile customers.</p>
+            </div>
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-mobile-alt"></i>
+                <h3>Perfect Across All Devices</h3>
+                <p>Designed with a mobile-first philosophy. Your website will look flawless and function perfectly on smartphones, tablets, and desktop computers.</p>
+            </div>
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-bullseye"></i>
+                <h3>Targeted Marketing Channels</h3>
+                <p>Our network automatically integrates tools and content relevant to your niche (e.g., Fashion, Tech, Food), helping you connect directly with your target customer base faster than generic websites.</p>
+            </div>
+            
+            <div class="feature-card card-hover">
+                <i class="fa-solid fa-shield-alt"></i>
+                <h3>Secure & Low Maintenance</h3>
+                <p>Built on reliable, static hosting (like GitHub), our sites virtually eliminate hacking risks and complex software updates, giving you peace of mind.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec steps-sec">
+        <div class="head">
+            <h2>How It Works: 4 Simple Steps to Get Online</h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-item card-hover">
+                <i class="fa-solid fa-map-marked-alt"></i>
+                <h4>1. Select Your Niche</h4>
+                <p>Choose your business category (Gym, Cafe, Tech) in the Architect and fill in your details.</p>
+            </div>
+            <div class="step-item card-hover">
+                <i class="fa-solid fa-gift"></i>
+                <h4>2. Get Free Tools</h4>
+                <p>Indro automatically bundles high-value, dynamic Apps (Booking, Estimators) relevant to your business for free.</p>
+            </div>
+            <div class="step-item card-hover">
+                <i class="fa-solid fa-upload"></i>
+                <h4>3. Launch & Go Live</h4>
+                <p>Download your complete website files and upload them to your custom domain in minutes.</p>
+            </div>
+            <div class="step-item card-hover">
+                <i class="fa-solid fa-chart-bar"></i>
+                <h4>4. Grow & Monetize</h4>
+                <p>Benefit from network revenue streams which keep your site running and offer a clear path to premium/ad-free status.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec monetization-sec">
+        <div class="head">
+            <h2>Our Smart Monetization Model</h2>
+            <p>We keep your website free by connecting your audience with highly relevant offers. It’s a win-win for everyone.</p>
+        </div>
+        <div class="monetization-grid">
+            <div class="monetization-card card-hover">
+                <i class="fa-solid fa-bullseye"></i>
+                <h4>Targeted Ad Placement</h4>
+                <p>Ads are highly relevant to your business niche (e.g., Protein Powder on a Gym site). This means they provide value to your users, not distraction.</p>
+            </div>
+            <div class="monetization-card card-hover">
+                <i class="fa-solid fa-cloud-upload-alt"></i>
+                <h4>Cost Neutral Hosting</h4>
+                <p>The revenue generated from the network completely covers your website hosting and maintenance costs. Zero bill shock, ever.</p>
+            </div>
+            <div class="monetization-card card-hover">
+                <i class="fa-solid fa-arrow-up"></i>
+                <h4>Premium Upgrade Path</h4>
+                <p>Ready to remove ads? Upgrade easily to our Premium plan for a small fee, keeping all your apps and features, but gaining an ad-free experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" id="portfolio">
+        <div class="head">
+            <h2>Client Success Stories (Our Portfolio)</h2>
+            <p>See the powerful, fast websites Indro Studio has deployed across various industries.</p>
+        </div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item card-hover">
+                <div class="portfolio-placeholder"><i class="fa-solid fa-dumbbell"></i> Gym Website</div>
+                <div class="portfolio-info">
+                    <h4>Raju Fitness Center</h4>
+                    <p>Industry: Fitness & Health</p>
+                    <p>Focus: Lead generation via BMI calculator tool.</p>
+                </div>
+            </div>
+            <div class="portfolio-item card-hover">
+                <div class="portfolio-placeholder"><i class="fa-solid fa-coffee"></i> Cafe Website</div>
+                <div class="portfolio-info">
+                    <h4>Cafe Delight Bistro</h4>
+                    <p>Industry: Food & Beverage</p>
+                    <p>Focus: Table booking widget integration and Zomato synergy.</p>
+                </div>
+            </div>
+            <div class="portfolio-item card-hover">
+                <div class="portfolio-placeholder"><i class="fa-solid fa-laptop-code"></i> Tech Website</div>
+                <div class="portfolio-info">
+                    <h4>TechX Solutions Hub</h4>
+                    <p>Industry: Technology & IT</p>
+                    <p>Focus: Clean design, fast loading, and remote status monitoring app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" style="background:var(--light-bg);" id="faq">
+        <div class="head">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-q">Is the website truly free? Are there any hidden fees? <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-a">Yes, the website setup and hosting are genuinely free. Our model uses non-intrusive, relevant ads to cover operational costs. There are no monthly maintenance charges.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">How does the Dynamic App Integration work? <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-a">Based on your business category, our network automatically injects high-value tools (like BMI calculators, reservation forms, etc.) into your site. This gives your customers immediate value without any extra effort or cost from you.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Can I use my own Custom Domain Name (e.g., mybusiness.com)? <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-a">Absolutely. You simply download the generated website files and upload them to your domain provider (like GoDaddy, Hostinger, etc.). The files are yours.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Can I remove the ads later? <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-a">Yes. We offer a Premium Upgrade option for a small monthly fee to remove all network ads and unlock additional features. You are always in control.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-bar">
+        <h3>Stop paying and start growing. Launch your free website today!</h3>
+        <p>Join thousands of smart businesses using Indro Studio to dominate their local market.</p>
+        <a href="Architect.html" class="hero-cta" style="background:white; color:var(--primary); box-shadow: none;">Launch Indro Architect <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Indro Studio. Building a Smarter Web. | <a href="#faq">FAQ</a> | <a href="#portfolio">Portfolio</a> | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+</div>
+
+<script>
+    // FAQ Toggle Script (Stable)
+    document.querySelectorAll('.faq-q').forEach(question => {
+        const parentItem = question.closest('.faq-item');
+        
+        question.addEventListener('click', () => {
+            parentItem.classList.toggle('active');
+        });
+    });
+
+    // --- DESKTOP ENHANCEMENT SCRIPT (Simplified for stability) ---
+    function applyDesktopStyles() {
+        const shapes = document.querySelectorAll('.shape');
+
+        if (window.innerWidth >= 769) {
+            // Enable Floating Shapes for Desktop Visuals
+            shapes.forEach(shape => shape.style.display = 'block');
+        } else {
+            // Mobile Optimization
+            shapes.forEach(shape => shape.style.display = 'none'); 
+        }
+    }
+
+    applyDesktopStyles();
+    window.addEventListener('resize', applyDesktopStyles);
+</script>
+
+</body>
+</html>
