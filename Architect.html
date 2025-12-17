@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- EDITOR UI --- */
+        /* --- EDITOR UI (NO CHANGES) --- */
         :root { --wix: #111; --bg: #f3f4f6; --act: #2563eb; }
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Outfit', sans-serif; }
         body { background: var(--bg); height:100vh; overflow:hidden; display:flex; flex-direction:column; }
@@ -59,6 +59,8 @@
     </style>
 </head>
 <body>
+
+<input type="hidden" id="finalKey" value="default">
 
 <div id="editor-ui">
     <div class="card">
@@ -174,6 +176,9 @@
         const category = document.getElementById('selectedCat').value;
         const batchNum = Math.floor(Math.random() * 5) + 1; 
         const generatedKey = category + "_" + batchNum; 
+        
+        // --- KEY FIX: Save Key for Firebase ---
+        document.getElementById('finalKey').value = generatedKey;
 
         // Gather Inputs
         const d = {
@@ -464,7 +469,6 @@ ${gallerySection}
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // आपका CONFIG
     const firebaseConfig = {
         apiKey: "AIzaSyC07JemT3VQQoDSOpARelJkcsqaWEO0vDI",
         authDomain: "indronetwork.firebaseapp.com",
@@ -486,6 +490,8 @@ ${gallerySection}
         const clientData = {
             name: document.getElementById('inpName').value,
             desc: document.getElementById('inpDesc').value,
+            // --- FIXED: NOW SENDING THE KEY TO FIREBASE ---
+            key: document.getElementById('finalKey').value || 'default', 
             phone: document.getElementById('inpPhone').value,
             loc: document.getElementById('inpLoc').value,
             s1: document.getElementById('sv1').value,
@@ -496,7 +502,7 @@ ${gallerySection}
             img1: document.getElementById('img1').value.trim(),
             img2: document.getElementById('img2').value.trim(),
             img3: document.getElementById('img3').value.trim(),
-            theme: "default",
+            isPremium: false,
             timestamp: new Date()
         };
 
@@ -504,12 +510,8 @@ ${gallerySection}
             const docRef = await addDoc(collection(db, "clients"), clientData);
             const liveLink = `https://indro.linkpc.net/view.html?id=${docRef.id}`;
             
-            // Success State
             btn.innerHTML = 'You are Live Now ✅';
-            btn.style.background = '#059669'; // Darker Green
-            btn.disabled = true; // Keep disabled so they don't double post
-            
-            // Show Modal
+            btn.style.background = '#059669';
             document.getElementById('finalLink').value = liveLink;
             document.getElementById('successModal').style.display = 'flex';
             
